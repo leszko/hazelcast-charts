@@ -57,6 +57,17 @@ hazelcast:
           </join>
         </network>
 
+        <hot-restart-persistence enabled="true">
+          <base-dir>/data/persistent/${podName}</base-dir>
+          <validation-timeout-seconds>1200</validation-timeout-seconds>
+          <data-load-timeout-seconds>900</data-load-timeout-seconds>
+        </hot-restart-persistence>
+        <map name="test-map">
+          <hot-restart enabled="true">
+            <fsync>true</fsync>
+          </hot-restart>
+        </map>
+
         <management-center enabled="${hazelcast.mancenter.enabled}">${hazelcast.mancenter.url}</management-center>
       </hazelcast>
 
@@ -126,6 +137,13 @@ serviceAccount:
   # The name of the ServiceAccount to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
+
+persistence:
+  enabled: true
+  # existingClaim:
+  accessModes:
+  - ReadWriteOnce
+  size: 8Gi
 
 # Hazelcast Management Center application properties
 mancenter:
