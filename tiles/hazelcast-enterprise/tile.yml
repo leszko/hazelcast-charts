@@ -1,0 +1,10 @@
+---
+name: hz-enterprise
+icon_file: icon.png
+label: Hazelcast Enterprise
+description: Hazelcast k8s Tile
+
+packages:
+- name: hz_enterprise
+  type: kibosh
+  helm_chart_dir: ../../stable/hazelcast-enterprise
