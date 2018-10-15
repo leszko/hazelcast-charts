@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   hazelcast:
   - appVersion: 3.10.2
-    created: 2018-10-09T10:33:01.8928012+02:00
+    created: 2018-10-15T12:26:10.4746998+01:00
     description: Hazelcast IMDG is the most widely used in-memory data grid with hundreds
       of thousands of installed clusters around the world. It offers caching solutions
       ensuring that data is in the right place when it’s needed for optimal performance.
@@ -31,12 +31,12 @@ entries:
     version: 1.0.0
   hazelcast-enterprise:
   - appVersion: 3.10.5
-    created: 2018-10-09T10:33:01.8976334+02:00
+    created: 2018-10-15T12:26:10.477804+01:00
     description: Hazelcast IMDG Enterprise is the most widely used in-memory data
       grid with hundreds of thousands of installed clusters around the world. It offers
       caching solutions ensuring that data is in the right place when it’s needed
       for optimal performance.
-    digest: c436d7b38791769f35628fd0972edf75cc5e65d4955629eabc8247f13d9f1b27
+    digest: 180504ca89349fbdeb12473a58ebc3c07347c499f98bb67866eebca2f5d83f4f
     engine: gotpl
     home: https://hazelcast.com/products/enterprise/
     icon: http://hazelcast.com/images/logos/Hazelcast-IMDG-Logo-Blue_Dark_Icon_200px.png
@@ -49,8 +49,6 @@ entries:
     - ICP
     - IKS
     - amd64
-    - s390x
-    - ppc64le
     maintainers:
     - email: rafal@hazelcast.com
       name: leszko
@@ -59,8 +57,8 @@ entries:
     - email: mesut@hazelcast.com
       name: mesutcelik
     name: hazelcast-enterprise
-    tillerVersion: '>=2.9.0'
+    tillerVersion: '>=2.7.2'
     urls:
     - https://leszko.github.io/hazelcast-charts/hazelcast-enterprise-1.0.0.tgz
     version: 1.0.0
-generated: 2018-10-09T10:33:01.8705579+02:00
+generated: 2018-10-15T12:26:10.4623013+01:00
