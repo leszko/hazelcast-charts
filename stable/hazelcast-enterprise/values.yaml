@@ -3,14 +3,14 @@
 ##
 image:
   # repository is the Hazelcast image name
-  repository: "hazelcast/hazelcast-enterprise-kubernetes"
+  repository: "leszko/hazelcast-enterprise"
   # tag is the Hazelcast image tag
-  tag: "3.10.2"
+  tag: "latest"
   # pullPolicy is the Docker image pull policy
   # It's recommended to change this to 'Always' if the image tag is 'latest'
   # ref: http://kubernetes.io/docs/user-guide/images/#updating-images
   #
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # pullSecrets is an array of docker-registry secret names
   # Secrets must be manually created in the namespace.
   # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -20,7 +20,7 @@ image:
 # Cluster settings
 cluster:
   # memberCount is the number Hazelcast members
-  memberCount: 2
+  memberCount: 3
 
 # Hazelcast properties
 hazelcast:
@@ -58,9 +58,10 @@ hazelcast:
         </network>
 
         <hot-restart-persistence enabled="true">
-          <base-dir>/data/persistent/${podName}</base-dir>
+          <base-dir>/data/persistent</base-dir>
           <validation-timeout-seconds>1200</validation-timeout-seconds>
           <data-load-timeout-seconds>900</data-load-timeout-seconds>
+          <auto-remove-stale-data>true</auto-remove-stale-data>
         </hot-restart-persistence>
         <map name="test-map">
           <hot-restart enabled="true">
@@ -148,7 +149,7 @@ persistence:
 # Hazelcast Management Center application properties
 mancenter:
   # enabled is a flag to enable Management Center application
-  enabled: true
+  enabled: false
   ## Hazelcast Management Center image version
   ## ref: https://hub.docker.com/r/hazelcast/management-center/tags/
   ##

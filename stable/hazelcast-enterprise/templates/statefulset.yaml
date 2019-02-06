@@ -88,10 +88,16 @@ spec:
       - name: hazelcast-storage
         configMap:
           name: {{ template "hazelcast.fullname" . }}-configuration
-      - name: hazelcast-persistent
-      {{- if .Values.persistence.enabled }}
-        persistentVolumeClaim:
-          claimName: {{ .Values.persistence.existingClaim | default (include "hazelcast.fullname" .) }}
-      {{- else }}
-        emptyDir: {}
-      {{- end -}}
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+  - metadata:
+      name: hazelcast-persistent
+    spec:
+      accessModes:
+  {{- range .Values.persistence.accessModes }}
+      - {{ . | quote }}
+  {{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.size }}
+  {{- end }}
