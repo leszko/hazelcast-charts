@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   hazelcast:
   - appVersion: 3.10.2
-    created: 2018-07-24T15:35:09.4066051+02:00
+    created: 2018-10-15T12:26:59.9532319+01:00
     description: Hazelcast IMDG is the most widely used in-memory data grid with hundreds
       of thousands of installed clusters around the world. It offers caching solutions
       ensuring that data is in the right place when it’s needed for optimal performance.
@@ -27,16 +27,16 @@ entries:
     sources:
     - https://github.com/hazelcast/hazelcast
     urls:
-    - https://hazelcast.github.com/charts/hazelcast-1.0.0.tgz
+    - https://leszko.github.io/hazelcast-charts/hazelcast-1.0.0.tgz
     version: 1.0.0
   hazelcast-enterprise:
-  - appVersion: 3.10.2
-    created: 2018-07-24T15:35:09.4108597+02:00
+  - appVersion: 3.10.5
+    created: 2018-10-15T12:26:59.9577851+01:00
     description: Hazelcast IMDG Enterprise is the most widely used in-memory data
       grid with hundreds of thousands of installed clusters around the world. It offers
       caching solutions ensuring that data is in the right place when it’s needed
       for optimal performance.
-    digest: 04a3d57b1f6713ad6cf43a74cbaba261b4a605699cc6634983059da9c4b41a5c
+    digest: 8949f9bef83e8b16fdf933fdfe2118dbc75ce164eef36b7d0998ad1e3ec37478
     engine: gotpl
     home: https://hazelcast.com/products/enterprise/
     icon: http://hazelcast.com/images/logos/Hazelcast-IMDG-Logo-Blue_Dark_Icon_200px.png
@@ -46,6 +46,9 @@ entries:
     - in-memory
     - database
     - caching
+    - ICP
+    - IKS
+    - amd64
     maintainers:
     - email: rafal@hazelcast.com
       name: leszko
@@ -54,7 +57,39 @@ entries:
     - email: mesut@hazelcast.com
       name: mesutcelik
     name: hazelcast-enterprise
+    tillerVersion: '>=2.7.2'
     urls:
-    - https://hazelcast.github.com/charts/hazelcast-enterprise-1.0.0.tgz
+    - https://leszko.github.io/hazelcast-charts/hazelcast-enterprise-1.0.22.tgz
+    version: 1.0.22
+  - appVersion: 3.10.5
+    created: 2018-10-15T12:26:59.955769+01:00
+    description: Hazelcast IMDG Enterprise is the most widely used in-memory data
+      grid with hundreds of thousands of installed clusters around the world. It offers
+      caching solutions ensuring that data is in the right place when it’s needed
+      for optimal performance.
+    digest: 180504ca89349fbdeb12473a58ebc3c07347c499f98bb67866eebca2f5d83f4f
+    engine: gotpl
+    home: https://hazelcast.com/products/enterprise/
+    icon: http://hazelcast.com/images/logos/Hazelcast-IMDG-Logo-Blue_Dark_Icon_200px.png
+    keywords:
+    - hazelcast
+    - keyvalue
+    - in-memory
+    - database
+    - caching
+    - ICP
+    - IKS
+    - amd64
+    maintainers:
+    - email: rafal@hazelcast.com
+      name: leszko
+    - email: guglielmo@hazelcast.com
+      name: googlielmo
+    - email: mesut@hazelcast.com
+      name: mesutcelik
+    name: hazelcast-enterprise
+    tillerVersion: '>=2.7.2'
+    urls:
+    - https://leszko.github.io/hazelcast-charts/hazelcast-enterprise-1.0.0.tgz
     version: 1.0.0
-generated: 2018-07-24T15:35:09.402372+02:00
+generated: 2018-10-15T12:26:59.9512562+01:00
