@@ -50,6 +50,17 @@ hazelcast:
             resolve-not-ready-addresses: true
         ssl:
           enabled: ${hazelcast.ssl}
+      hot-restart-persistence:
+        enabled: ${hazelcast.hotRestart}
+        base-dir: /data/persistent
+        validation-timeout-seconds: 1200
+        data-load-timeout-seconds: 900
+        auto-remove-stale-data: true
+      map:
+        test-map:
+          hot-restart:
+            enabled: true
+            fsync: true
       management-center:
         enabled: ${hazelcast.mancenter.enabled}
         url: ${hazelcast.mancenter.url}
@@ -128,6 +139,13 @@ serviceAccount:
   # The name of the ServiceAccount to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
+
+hotRestart:
+  enabled: false
+  # existingClaim:
+  accessModes:
+  - ReadWriteMany
+  size: 8Gi
 
 # Security Context properties
 securityContext:
