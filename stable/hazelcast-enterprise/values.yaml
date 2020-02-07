@@ -70,10 +70,14 @@ hazelcast:
   # configurationFiles are any additional Hazelcast configuration files
   # configurationFiles:
 
-# affinity specifies the affinity/anti-affinity of different pods. The commented out
-# example below shows how you could ensure your hazelcast pods are scheduled on
-# different Kubernetes nodes
+# affinity specifies the affinity/anti-affinity
 affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: beta.kubernetes.io/arch
+# The commented out example below shows how you could ensure your hazelcast pods are scheduled on different Kubernetes nodes
 #  podAntiAffinity:
 #    requiredDuringSchedulingIgnoredDuringExecution:
 #    - labelSelector:
@@ -146,14 +150,12 @@ readinessProbe:
 
 # Configure resource requests and limits
 # ref: http://kubernetes.io/docs/user-guide/compute-resources/
-#
-# resources:
-#   requests:
-#     memory: 256Mi
-#     cpu: 100m
-#   limits:
-#     memory: 1024Mi
-#     cpu: 200m
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 2048Mi
 
 # Hazelcast Service properties
 service:
@@ -274,7 +276,12 @@ mancenter:
   # licenseKeySecretName:
 
   # affinity specifies the Management Center affinity/anti-affinity of different pods
-  # affinity:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: beta.kubernetes.io/arch
 
   # tolerations enable Management Center POD to be able to run on nodes with taints
   # tolerations:
@@ -285,14 +292,12 @@ mancenter:
 
   # Configure resource requests and limits
   # ref: http://kubernetes.io/docs/user-guide/compute-resources/
-  #
-  # resources:
-  #   requests:
-  #     memory: 256Mi
-  #     cpu: 100m
-  #   limits:
-  #     memory: 1024Mi
-  #     cpu: 200m
+  resources:
+    requests:
+      memory: 1024Mi
+      cpu: 100m
+    limits:
+      memory: 2048Mi
 
   # Management Center persistence properties
   persistence:
