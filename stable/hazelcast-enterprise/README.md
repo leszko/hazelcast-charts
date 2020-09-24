@@ -6,8 +6,7 @@
 
     $ helm repo add hazelcast https://hazelcast-charts.s3.amazonaws.com/
     $ helm repo update
-    $ helm install my-release --set hazelcast.licenseKey=<license_key> hazelcast/hazelcast-enterprise        # Helm 3
-    $ helm install --name my-release --set hazelcast.licenseKey=<license_key> hazelcast/hazelcast-enterprise # Helm 2
+    $ helm install my-release --set hazelcast.licenseKey=<license_key> hazelcast/hazelcast-enterprise
 
 For users who already added `hazelcast` repo to their local helm client before; you need to run `helm repo add` command again to use latest charts from our new chart repo:
 
@@ -36,8 +35,7 @@ This chart bootstraps a [Hazelcast Enterprise](https://github.com/hazelcast/haze
 
 To install the chart with the release name `my-release`:
 
-    $ helm install my-release --set hazelcast.licenseKey=<license_key> hazelcast/hazelcast-enterprise        # Helm 3
-    $ helm install --name my-release --set hazelcast.licenseKey=<license_key> hazelcast/hazelcast-enterprise # Helm 2
+    $ helm install my-release --set hazelcast.licenseKey=<license_key> hazelcast/hazelcast-enterprise
 
 The command deploys Hazelcast on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
 
@@ -167,13 +165,7 @@ The following table lists the configurable parameters of the Hazelcast chart and
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
-    # Helm 3
     $ helm install my-release \
-      --set hazelcast.licenseKey=<license_key>,cluster.memberCount=3 \
-        hazelcast/hazelcast-enterprise
-
-    # Helm 2
-    $ helm install --name my-release \
       --set hazelcast.licenseKey=<license_key>,cluster.memberCount=3 \
         hazelcast/hazelcast-enterprise
 
@@ -181,8 +173,7 @@ The above command sets number of Hazelcast members to 3.
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
-    $ helm install my-release -f values.yaml hazelcast/hazelcast-enterprise        # Helm 3
-    $ helm install --name my-release -f values.yaml hazelcast/hazelcast-enterprise # Helm 2
+    $ helm install my-release -f values.yaml hazelcast/hazelcast-enterprise
 
 > **Tip**: You can use the default values.yaml with the `hazelcast.license`
 > filled in
@@ -216,7 +207,6 @@ To enable SSL-protected communication between members and clients, you need firs
 
 Then, run your cluster with SSL enabled and keystore secrets mounted into your PODs.
 
-    # Helm 3
     $ helm install --my-release \
       --set hazelcast.licenseKey=<license_key> \
       --set hazelcast.ssl=true \
@@ -228,19 +218,78 @@ Then, run your cluster with SSL enabled and keystore secrets mounted into your P
       --set mancenter.service.port=8443 \
         hazelcast/hazelcast-enterprise
 
-    # Helm 2
-    $ helm install --name my-release \
-      --set hazelcast.licenseKey=<license_key> \
-      --set hazelcast.ssl=true \
-      --set secretsMountName=keystore \
-      --set hazelcast.javaOpts='-Djavax.net.ssl.keyStore=/data/secrets/keystore -Djavax.net.ssl.keyStorePassword=<keystore_password> -Djavax.net.ssl.trustStore=/data/secrets/truststore -Djavax.net.ssl.trustStorePassword=<truststore_password>' \
-      --set mancenter.ssl=true \
-      --set mancenter.secretsMountName=keystore \
-      --set mancenter.javaOpts='-Dhazelcast.mc.tls.keyStore=/secrets/keystore -Dhazelcast.mc.tls.keyStorePassword=<keystore_password> -Dhazelcast.mc.tls.trustStore=/secrets/truststore -Dhazelcast.mc.tls.trustStorePassword=<truststore_password>' \
-      --set mancenter.service.port=8443 \
-        hazelcast/hazelcast-enterprise
-
 For more information please check [Hazelcast Kubernetes SSL Code Sample](https://github.com/hazelcast/hazelcast-code-samples/tree/master/hazelcast-integration/kubernetes/samples/ssl).
+
+
+## Adding custom JAR files to the IMDG/Management Center classpath
+
+You can mount any volume which contains your JAR files to the pods created by helm chart using `customVolume` configuration.
+
+When the `customVolume` set, it will mount provided volume to the pod on `/data/custom` path. This path is also appended to the classpath of running Java process.
+
+For example, if you have existing [Local Persistent Volumes](https://kubernetes.io/blog/2019/04/04/kubernetes-1.14-local-persistent-volumes-ga/) and Persistent Volume Claims like below;
+
+```yaml
+  kind: StorageClass
+  apiVersion: storage.k8s.io/v1
+  metadata:
+    name: local-storage
+  provisioner: kubernetes.io/no-provisioner
+  volumeBindingMode: WaitForFirstConsumer
+
+  ---
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: <hz-custom-local-pv / mc-custom-local-pv>
+  spec:
+    storageClassName: local-storage
+    capacity:
+      storage: 1Gi
+    accessModes:
+      - ReadWriteOnce
+    local:
+      path: </path/to/your/jars>
+    nodeAffinity:
+      required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - <YOUR_NODE>
+  ---
+
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: < hz-custom-local-pv-claim / mc-custom-local-pv-claim>
+  spec:
+    storageClassName: local-storage
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+      storage: 1Gi
+```
+
+You can configure your Helm chart to use it like below in your `values.yaml` file.
+
+For IMDG:
+```yaml
+customVolume:
+  persistentVolumeClaim:
+    claimName: hz-custom-local-pv-claim
+```
+
+For Management Center:
+```yaml
+mancenter:
+  ...
+  customVolume:
+    persistentVolumeClaim:
+      claimName: mc-custom-local-pv-claim
+```
 
 ## Notable changes
 
