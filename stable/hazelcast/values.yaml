@@ -5,7 +5,7 @@ image:
   # repository is the Hazelcast image name
   repository: "hazelcast/hazelcast"
   # tag is the Hazelcast image tag
-  tag: "4.0.3"
+  tag: "4.1"
   # pullPolicy is the Docker image pull policy
   # It's recommended to change this to 'Always' if the image tag is 'latest'
   # ref: http://kubernetes.io/docs/user-guide/images/#updating-images
@@ -24,10 +24,11 @@ cluster:
 
 # Hazelcast properties
 hazelcast:
+  # enabled is a flag to enable Hazelcast application
+  enabled: true
   # javaOpts are additional JAVA_OPTS properties for Hazelcast member
   javaOpts:
-  # loggingLevel is the level of Hazelcast logs (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, and FINEST)
-  # Note that changing this value requires setting securityContext.runAsUser to 0 and securityContext.readOnlyRootFilesystem to false
+  # loggingLevel is the level of Hazelcast logs (OFF, FATAL, ERROR, WARN, INFO, DEBUG, TRACE and ALL)
   # loggingLevel:
   # existingConfigMap defines a ConfigMap which contains Hazelcast configuration file(s) that are used instead of hazelcast.yaml configuration below
   # existingConfigMap:
@@ -83,6 +84,13 @@ nodeSelector: {}
 
 # customPorts is the whole ports section to customize how Hazelcast container ports are defined
 # customPorts:
+
+# labels to add to the pod container metadata
+podLabels: {}
+#  key: value
+
+# specify a custom priority class name
+priorityClassName: ""
 
 gracefulShutdown:
   enabled: true
@@ -166,6 +174,8 @@ rbac:
 serviceAccount:
   # Specifies whether a ServiceAccount should be created
   create: true
+  # Whether the token associated with the service account should be automatically mounted
+  automountToken: true
   # The name of the ServiceAccount to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
@@ -209,7 +219,7 @@ mancenter:
     # repository is the Hazelcast Management Center image name
     repository: "hazelcast/management-center"
     # tag is the Hazelcast Management Center image tag
-    tag: "4.2020.08"
+    tag: "4.2020.10"
     # pullPolicy is the Docker image pull policy
     # It's recommended to change this to 'Always' if the image tag is 'latest'
     # ref: http://kubernetes.io/docs/user-guide/images/#updating-images
@@ -273,6 +283,13 @@ mancenter:
   # nodeSelector is an array of Hazelcast Management Center Node labels for POD assignments
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
   nodeSelector: {}
+
+  # labels to add to the mancenter pod container metadata
+  podLabels: {}
+  #  key: value
+
+  # priority class name for mancenter
+  priorityClassName: ""
 
   # Configure resource requests and limits
   # ref: http://kubernetes.io/docs/user-guide/compute-resources/

@@ -60,12 +60,13 @@ The following table lists the configurable parameters of the Hazelcast chart and
 |image.pullPolicy|Image pull policy|IfNotPresent|
 |image.pullSecrets|Specify docker-registry secret names as an array|nil|
 |cluster.memberCount|Number of Hazelcast members|2|
+|hazelcast.enabled|Turn on and off Hazelcast application|true|
 |hazelcast.licenseKey|Hazelcast Enterprise License Key|nil|
 |hazelcast.licenseKeySecretName|Kubernetes Secret Name, where Hazelcast Enterprise License Key is stored (can be used instead of licenseKey)|nil|
 |hazelcast.ssl|Enable SSL for Hazelcast|false|
 |hazelcast.updateClusterVersionAfterRollingUpgrade|Enable Hazelcast cluster auto version upgrade after the rolling upgrade procedure|true|
 |hazelcast.javaOpts|Additional JAVA_OPTS properties for Hazelcast member|nil|
-|hazelcast.loggingLevel|Level of Hazelcast logs (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, and FINEST); note that changing this value requires setting securityContext.runAsUser to 0 and securityContext.readOnlyRootFilesystem to false|nil|
+|hazelcast.loggingLevel|Level of Hazelcast logs (OFF, FATAL, ERROR, WARN, INFO, DEBUG, TRACE and ALL)|nil|
 |hazelcast.existingConfigMap|ConfigMap which contains Hazelcast configuration file(s) that are used instead hazelcast.yaml embedded into values.yaml|nil|
 |hazelcast.yaml|Hazelcast YAML Configuration (hazelcast.yaml embedded into values.yaml)|{DEFAULT_HAZELCAST_YAML}|
 |hazelcast.configurationFiles|Hazelcast configuration files|nil|
@@ -75,6 +76,8 @@ The following table lists the configurable parameters of the Hazelcast chart and
 |nodeSelector|Hazelcast Node labels for pod assignment|nil|
 |hostPort|Port under which Hazelcast PODs are exposed on the host machines|nil|
 |customPorts|Whole ports section to customize how Hazelcast container ports are defined|nil|
+|podLabels|Extra labels to add to the pod container metadata|empty map|
+|priorityClassName|Custom priority class name|<undefined>|
 |gracefulShutdown.enabled|Turn on and off Graceful Shutdown|true|
 |gracefulShutdown.maxWaitSeconds|Maximum time to wait for the Hazelcast POD to shut down|600|
 |livenessProbe.enabled|Turn on and off liveness probe|true|
@@ -106,6 +109,7 @@ The following table lists the configurable parameters of the Hazelcast chart and
 |service.port|Kubernetes service port|5701|
 |rbac.create|Enable installing RBAC Role authorization|true|
 |serviceAccount.create|Enable installing Service Account|true|
+|serviceAccount.automountToken|Whether the token associated with the service account should be automatically mounted|true|
 |serviceAccount.name|Name of Service Account, if not set, the name is generated using the fullname template|nil|
 |securityContext.enabled|Enables Security Context for Hazelcast and Management Center|true|
 |securityContext.runAsUser|User ID used to run the Hazelcast and Management Center containers|65534|
@@ -138,6 +142,8 @@ The following table lists the configurable parameters of the Hazelcast chart and
 |mancenter.affinity|Management Center Node affinity|nil|
 |mancenter.tolerations|Management Center Node tolerations|nil|
 |mancenter.nodeSelector|Hazelcast Management Center node labels for pod assignment|nil|
+|mancenter.podLabels| Extra labels to add to the pod container metadata|empty map|
+|mancenter.priorityClassName|Custom priority class name|<undefined>|
 |mancenter.resources|CPU/Memory resource requests/limits|nil|
 |mancenter.persistence.enabled|Enable Persistent Volume for Hazelcast Management|true|
 |mancenter.persistence.existingClaim|Name of the existing Persistence Volume Claim, if not defined, a new is created|nil|
